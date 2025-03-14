@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Clone</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="logo">
+                <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_White.png" alt="Spotify Logo">
+            </div>
+            <ul class="nav-links">
+                <li class="active"><i class="fas fa-home"></i> Home</li>
+                <li><i class="fas fa-search"></i> Search</li>
+                <li><i class="fas fa-book"></i> Your Library</li>
+                <li><i class="fas fa-plus-square"></i> Create Playlist</li>
+                <li><i class="fas fa-heart"></i> Liked Songs</li>
+                <li><i class="fas fa-list"></i> Your Episodes</li>
+            </ul>
+            <div class="playlists">
+                <h4>PLAYLISTS</h4>
+                <ul>
+                    <li>My Playlist #1</li>
+                    <li>My Playlist #2</li>
+                    <li>My Playlist #3</li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header>
+                <div class="header-left">
+                    <button class="nav-buttons">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="nav-buttons">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="header-right">
+                    <button class="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="user-profile">
+                        <img src="https://i.pravatar.cc/32" alt="User Profile">
+                        <span>John Doe</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content">
+                <section class="featured-section">
+                    <h2>Welcome back</h2>
+                    <div class="playlist-grid">
+                        <div class="playlist-card">
+                            <img src="https://picsum.photos/200/200?random=1" alt="Playlist Cover">
+                            <h3>Today's Top Hits</h3>
+                            <p>Rema & Selena Gomez are on top of the...</p>
+                        </div>
+                        <div class="playlist-card">
+                            <img src="https://picsum.photos/200/200?random=2" alt="Playlist Cover">
+                            <h3>RapCaviar</h3>
+                            <p>New music from Lil Baby, Gunna and Travis Scott.</p>
+                        </div>
+                        <div class="playlist-card">
+                            <img src="https://picsum.photos/200/200?random=3" alt="Playlist Cover">
+                            <h3>All Out 2010s</h3>
+                            <p>The biggest songs of the 2010s.</p>
+                        </div>
+                        <div class="playlist-card">
+                            <img src="https://picsum.photos/200/200?random=4" alt="Playlist Cover">
+                            <h3>Rock Classics</h3>
+                            <p>Rock legends & epic songs that continue to inspire.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="recently-played">
+                    <h2>Recently Played</h2>
+                    <div class="track-list">
+                        <div class="track-item">
+                            <img src="https://picsum.photos/56/56?random=5" alt="Track Cover">
+                            <div class="track-info">
+                                <h4>Calm Down</h4>
+                                <p>Rema, Selena Gomez</p>
+                            </div>
+                            <div class="track-duration">3:30</div>
+                        </div>
+                        <div class="track-item">
+                            <img src="https://picsum.photos/56/56?random=6" alt="Track Cover">
+                            <div class="track-info">
+                                <h4>Last Night</h4>
+                                <p>Morgan Wallen</p>
+                            </div>
+                            <div class="track-duration">2:44</div>
+                        </div>
+                        <div class="track-item">
+                            <img src="https://picsum.photos/56/56?random=7" alt="Track Cover">
+                            <div class="track-info">
+                                <h4>Flowers</h4>
+                                <p>Miley Cyrus</p>
+                            </div>
+                            <div class="track-duration">3:20</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Player Bar -->
+        <div class="player-bar">
+            <div class="now-playing">
+                <img src="https://picsum.photos/56/56?random=5" alt="Current Track">
+                <div class="track-info">
+                    <h4>Calm Down</h4>
+                    <p>Rema, Selena Gomez</p>
+                </div>
+                <button class="like-button">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+
+            <div class="player-controls">
+                <div class="control-buttons">
+                    <button><i class="fas fa-random"></i></button>
+                    <button><i class="fas fa-step-backward"></i></button>
+                    <button class="play-button"><i class="fas fa-play"></i></button>
+                    <button><i class="fas fa-step-forward"></i></button>
+                    <button><i class="fas fa-redo"></i></button>
+                </div>
+                <div class="progress-bar">
+                    <span class="current-time">0:00</span>
+                    <div class="progress">
+                        <div class="progress-filled"></div>
+                    </div>
+                    <span class="total-time">3:30</span>
+                </div>
+            </div>
+
+            <div class="volume-controls">
+                <button><i class="fas fa-volume-up"></i></button>
+                <div class="volume-slider">
+                    <div class="volume-filled"></div>
+                </div>
+                <button><i class="fas fa-volume-mute"></i></button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 

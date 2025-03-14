@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Clone - Player</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .player-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--background-elevated-base);
+            padding: 16px;
+            border-top: 1px solid var(--decorative-subdued);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+        }
+
+        .now-playing {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            width: 30%;
+        }
+
+        .song-cover {
+            width: 56px;
+            height: 56px;
+            border-radius: 4px;
+        }
+
+        .song-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .song-title {
+            font-weight: 500;
+            color: var(--text-base);
+        }
+
+        .song-artist {
+            font-size: 14px;
+            color: var(--text-subdued);
+        }
+
+        .player-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            width: 40%;
+        }
+
+        .control-buttons {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .control-button {
+            background: none;
+            border: none;
+            color: var(--text-base);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 8px;
+            border-radius: 50%;
+            transition: transform 0.2s;
+        }
+
+        .control-button:hover {
+            transform: scale(1.1);
+        }
+
+        .play-button {
+            font-size: 32px;
+        }
+
+        .progress-container {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .time {
+            font-size: 12px;
+            color: var(--text-subdued);
+            min-width: 40px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 4px;
+            background-color: var(--background-tinted-base);
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .progress {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background-color: var(--text-bright-accent);
+            border-radius: 2px;
+        }
+
+        .volume-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 30%;
+            justify-content: flex-end;
+        }
+
+        .volume-slider {
+            width: 100px;
+            height: 4px;
+            background-color: var(--background-tinted-base);
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .volume-progress {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background-color: var(--text-bright-accent);
+            border-radius: 2px;
+        }
+
+        .error-message {
+            color: #ff4444;
+            background-color: rgba(255, 68, 68, 0.1);
+            padding: 8px 16px;
+            border-radius: 4px;
+            margin: 8px 0;
+            display: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: var(--text-subdued);
+            margin: 8px 0;
+        }
+
+        .loading i {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="player-container">
+        <div class="now-playing">
+            <img src="https://picsum.photos/56/56" alt="Song Cover" class="song-cover" id="song-cover">
+            <div class="song-info">
+                <div class="song-title" id="song-title">No song playing</div>
+                <div class="song-artist" id="song-artist">-</div>
+            </div>
+        </div>
+
+        <div class="player-controls">
+            <div class="error-message" id="error-message"></div>
+            <div class="loading" id="loading">
+                <i class="fas fa-spinner"></i> Loading...
+            </div>
+            <div class="control-buttons">
+                <button class="control-button" id="shuffle">
+                    <i class="fas fa-random"></i>
+                </button>
+                <button class="control-button" id="previous">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button class="control-button play-button" id="play-pause">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="control-button" id="next">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+                <button class="control-button" id="repeat">
+                    <i class="fas fa-redo"></i>
+                </button>
+            </div>
+            <div class="progress-container">
+                <span class="time" id="current-time">0:00</span>
+                <div class="progress-bar" id="progress-bar">
+                    <div class="progress" id="progress"></div>
+                </div>
+                <span class="time" id="duration">0:00</span>
+            </div>
+        </div>
+
+        <div class="volume-controls">
+            <button class="control-button" id="mute">
+                <i class="fas fa-volume-up"></i>
+            </button>
+            <div class="volume-slider" id="volume-slider">
+                <div class="volume-progress" id="volume-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import player from './audio-player.js';
+
+        // DOM Elements
+        const songCover = document.getElementById('song-cover');
+        const songTitle = document.getElementById('song-title');
+        const songArtist = document.getElementById('song-artist');
+        const playPauseButton = document.getElementById('play-pause');
+        const previousButton = document.getElementById('previous');
+        const nextButton = document.getElementById('next');
+        const progressBar = document.getElementById('progress-bar');
+        const progress = document.getElementById('progress');
+        const currentTimeSpan = document.getElementById('current-time');
+        const durationSpan = document.getElementById('duration');
+        const volumeSlider = document.getElementById('volume-slider');
+        const volumeProgress = document.getElementById('volume-progress');
+        const muteButton = document.getElementById('mute');
+        const errorMessage = document.getElementById('error-message');
+        const loading = document.getElementById('loading');
+
+        // Update song information
+        function updateSongInfo(song) {
+            if (song) {
+                songCover.src = song.cover;
+                songTitle.textContent = song.title;
+                songArtist.textContent = song.artist;
+            } else {
+                songCover.src = 'https://picsum.photos/56/56';
+                songTitle.textContent = 'No song playing';
+                songArtist.textContent = '-';
+            }
+        }
+
+        // Show error message
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        // Format time in MM:SS
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60);
+            return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+
+        // Update progress bar
+        player.onProgressUpdate = (progressPercent) => {
+            progress.style.width = `${progressPercent}%`;
+            currentTimeSpan.textContent = formatTime(player.audio.currentTime);
+        };
+
+        // Update duration
+        player.onDurationUpdate = (duration) => {
+            durationSpan.textContent = formatTime(duration);
+        };
+
+        // Event Listeners
+        playPauseButton.addEventListener('click', () => {
+            if (!player.currentSong) {
+                if (player.playlist.length > 0) {
+                    player.loadSong(player.playlist[0]);
+                } else {
+                    showError('No songs in playlist');
+                    return;
+                }
+            }
+            player.togglePlay();
+            const icon = playPauseButton.querySelector('i');
+            icon.className = player.isPlaying ? 'fas fa-pause' : 'fas fa-play';
+        });
+
+        previousButton.addEventListener('click', () => {
+            if (player.currentSong) {
+                player.playPrevious();
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            if (player.currentSong) {
+                player.playNext();
+            }
+        });
+
+        progressBar.addEventListener('click', (e) => {
+            if (player.currentSong) {
+                const rect = progressBar.getBoundingClientRect();
+                const percent = (e.clientX - rect.left) / rect.width;
+                player.seek(percent * player.audio.duration);
+            }
+        });
+
+        volumeSlider.addEventListener('click', (e) => {
+            const rect = volumeSlider.getBoundingClientRect();
+            const volume = (e.clientX - rect.left) / rect.width;
+            player.setVolume(volume);
+            volumeProgress.style.width = `${volume * 100}%`;
+        });
+
+        muteButton.addEventListener('click', () => {
+            const icon = muteButton.querySelector('i');
+            if (player.audio.volume > 0) {
+                player.setVolume(0);
+                volumeProgress.style.width = '0%';
+                icon.className = 'fas fa-volume-mute';
+            } else {
+                player.setVolume(1);
+                volumeProgress.style.width = '100%';
+                icon.className = 'fas fa-volume-up';
+            }
+        });
+
+        // Initialize volume
+        player.setVolume(0.5);
+        volumeProgress.style.width = '50%';
+
+        // Load first song if available
+        if (player.playlist.length > 0) {
+            updateSongInfo(player.playlist[0]);
+        }
+    </script>
+</body>
+</html> 

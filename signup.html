@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Clone - Sign Up</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .signup-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to bottom, #1DB954, #191414);
+            padding: 20px;
+        }
+
+        .signup-box {
+            background-color: var(--background-elevated-base);
+            padding: 40px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .signup-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .signup-logo img {
+            width: 150px;
+        }
+
+        .signup-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            color: var(--text-base);
+            font-size: 14px;
+        }
+
+        .form-group input {
+            padding: 12px;
+            border-radius: 4px;
+            border: 1px solid var(--decorative-subdued);
+            background-color: var(--background-base);
+            color: var(--text-base);
+            font-size: 16px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--text-bright-accent);
+        }
+
+        .signup-button {
+            background-color: var(--text-bright-accent);
+            color: var(--background-base);
+            padding: 12px;
+            border: none;
+            border-radius: 24px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .signup-button:hover {
+            transform: scale(1.02);
+        }
+
+        .signup-options {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .signup-options a {
+            color: var(--text-subdued);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .signup-options a:hover {
+            color: var(--text-base);
+            text-decoration: underline;
+        }
+
+        .social-signup {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .social-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px;
+            border: 1px solid var(--decorative-subdued);
+            border-radius: 24px;
+            background-color: transparent;
+            color: var(--text-base);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .social-button:hover {
+            background-color: var(--background-tinted-base);
+        }
+
+        .social-button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .terms {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-subdued);
+        }
+
+        .terms a {
+            color: var(--text-base);
+            text-decoration: none;
+        }
+
+        .terms a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <div class="signup-box">
+            <div class="signup-logo">
+                <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_White.png" alt="Spotify Logo">
+            </div>
+            <form class="signup-form">
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" required>
+                </div>
+                <button type="submit" class="signup-button">SIGN UP</button>
+            </form>
+            <div class="signup-options">
+                <a href="login.html">Already have an account? LOG IN</a>
+            </div>
+            <div class="social-signup">
+                <button class="social-button">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google">
+                    Continue with Google
+                </button>
+                <button class="social-button">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" alt="Facebook">
+                    Continue with Facebook
+                </button>
+                <button class="social-button">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Twitter-logo.svg" alt="Twitter">
+                    Continue with Twitter
+                </button>
+            </div>
+            <div class="terms">
+                By signing up, you agree to Spotify's <a href="#">Terms and Conditions of Use</a> and <a href="#">Privacy Policy</a>.
+            </div>
+        </div>
+    </div>
+    <script>
+        document.querySelector('.signup-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            // Here you would typically make an API call to your backend
+            console.log('Signup attempt:', { email, username, password });
+            
+            // For demo purposes, redirect to main page
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html> 

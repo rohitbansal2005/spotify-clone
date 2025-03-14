@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Clone - Profile</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .profile-container {
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #1DB954, #191414);
+            padding: 40px 20px;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--text-bright-accent);
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-info h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .profile-info p {
+            color: var(--text-subdued);
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--text-subdued);
+            font-size: 14px;
+        }
+
+        .profile-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .content-section {
+            background-color: var(--background-elevated-base);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 24px;
+        }
+
+        .edit-button {
+            background: none;
+            border: none;
+            color: var(--text-subdued);
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .edit-button:hover {
+            color: var(--text-base);
+        }
+
+        .playlist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .playlist-card {
+            background-color: var(--background-tinted-base);
+            padding: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .playlist-card:hover {
+            background-color: var(--background-tinted-highlight);
+        }
+
+        .playlist-card img {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 4px;
+            margin-bottom: 16px;
+        }
+
+        .playlist-card h3 {
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .playlist-card p {
+            color: var(--text-subdued);
+            font-size: 14px;
+        }
+
+        .favorite-artists {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding-bottom: 20px;
+        }
+
+        .artist-card {
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .artist-card img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .artist-card h3 {
+            margin-bottom: 5px;
+        }
+
+        .artist-card p {
+            color: var(--text-subdued);
+            font-size: 14px;
+        }
+
+        .recent-activity {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .activity-item:hover {
+            background-color: var(--background-tinted-base);
+        }
+
+        .activity-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+        }
+
+        .activity-info {
+            flex: 1;
+        }
+
+        .activity-info h4 {
+            margin-bottom: 4px;
+        }
+
+        .activity-info p {
+            color: var(--text-subdued);
+            font-size: 14px;
+        }
+
+        .activity-time {
+            color: var(--text-subdued);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            <img src="https://i.pravatar.cc/200" alt="Profile Picture" class="profile-image">
+            <div class="profile-info">
+                <h1>John Doe</h1>
+                <p>Premium Member</p>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">1,234</div>
+                        <div class="stat-label">Followers</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">567</div>
+                        <div class="stat-label">Following</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">89</div>
+                        <div class="stat-label">Playlists</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-content">
+            <div class="content-section">
+                <div class="section-header">
+                    <h2>Your Playlists</h2>
+                    <button class="edit-button">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                </div>
+                <div class="playlist-grid">
+                    <div class="playlist-card">
+                        <img src="https://picsum.photos/200/200?random=1" alt="Playlist Cover">
+                        <h3>Liked Songs</h3>
+                        <p>123 songs</p>
+                    </div>
+                    <div class="playlist-card">
+                        <img src="https://picsum.photos/200/200?random=2" alt="Playlist Cover">
+                        <h3>Workout Mix</h3>
+                        <p>45 songs</p>
+                    </div>
+                    <div class="playlist-card">
+                        <img src="https://picsum.photos/200/200?random=3" alt="Playlist Cover">
+                        <h3>Chill Vibes</h3>
+                        <p>67 songs</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <div class="section-header">
+                    <h2>Favorite Artists</h2>
+                    <button class="edit-button">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                </div>
+                <div class="favorite-artists">
+                    <div class="artist-card">
+                        <img src="https://picsum.photos/150/150?random=4" alt="Artist">
+                        <h3>Drake</h3>
+                        <p>Artist</p>
+                    </div>
+                    <div class="artist-card">
+                        <img src="https://picsum.photos/150/150?random=5" alt="Artist">
+                        <h3>Taylor Swift</h3>
+                        <p>Artist</p>
+                    </div>
+                    <div class="artist-card">
+                        <img src="https://picsum.photos/150/150?random=6" alt="Artist">
+                        <h3>Ed Sheeran</h3>
+                        <p>Artist</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <div class="section-header">
+                    <h2>Recent Activity</h2>
+                    <button class="edit-button">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                </div>
+                <div class="recent-activity">
+                    <div class="activity-item">
+                        <img src="https://picsum.photos/40/40?random=7" alt="Activity">
+                        <div class="activity-info">
+                            <h4>Added to Playlist</h4>
+                            <p>Added "Shape of You" to Workout Mix</p>
+                        </div>
+                        <div class="activity-time">2h ago</div>
+                    </div>
+                    <div class="activity-item">
+                        <img src="https://picsum.photos/40/40?random=8" alt="Activity">
+                        <div class="activity-info">
+                            <h4>Liked Song</h4>
+                            <p>Liked "Blinding Lights" by The Weeknd</p>
+                        </div>
+                        <div class="activity-time">5h ago</div>
+                    </div>
+                    <div class="activity-item">
+                        <img src="https://picsum.photos/40/40?random=9" alt="Activity">
+                        <div class="activity-info">
+                            <h4>Created Playlist</h4>
+                            <p>Created new playlist "Chill Vibes"</p>
+                        </div>
+                        <div class="activity-time">1d ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Add click handlers for edit buttons
+        document.querySelectorAll('.edit-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const section = button.closest('.content-section');
+                const title = section.querySelector('h2').textContent;
+                alert(`Editing ${title}...`);
+            });
+        });
+    </script>
+</body>
+</html> 

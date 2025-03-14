@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Clone - Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to bottom, #1DB954, #191414);
+            padding: 20px;
+        }
+
+        .login-box {
+            background-color: var(--background-elevated-base);
+            padding: 40px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-logo img {
+            width: 150px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            color: var(--text-base);
+            font-size: 14px;
+        }
+
+        .form-group input {
+            padding: 12px;
+            border-radius: 4px;
+            border: 1px solid var(--decorative-subdued);
+            background-color: var(--background-base);
+            color: var(--text-base);
+            font-size: 16px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--text-bright-accent);
+        }
+
+        .error-message {
+            color: #ff4444;
+            background-color: rgba(255, 68, 68, 0.1);
+            padding: 8px 16px;
+            border-radius: 4px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .login-button {
+            background-color: var(--text-bright-accent);
+            color: var(--background-base);
+            padding: 12px;
+            border: none;
+            border-radius: 24px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .login-button:hover {
+            transform: scale(1.02);
+        }
+
+        .login-options {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .login-options a {
+            color: var(--text-subdued);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .login-options a:hover {
+            color: var(--text-base);
+            text-decoration: underline;
+        }
+
+        .social-login {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .social-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px;
+            border: 1px solid var(--decorative-subdued);
+            border-radius: 24px;
+            background-color: transparent;
+            color: var(--text-base);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .social-button:hover {
+            background-color: var(--background-tinted-base);
+            transform: translateY(-1px);
+        }
+
+        .social-button i {
+            font-size: 20px;
+        }
+
+        #google-login i {
+            color: #DB4437;
+        }
+
+        #facebook-login i {
+            color: #4267B2;
+        }
+
+        #twitter-login i {
+            color: #1DA1F2;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: var(--text-subdued);
+            margin: 8px 0;
+        }
+
+        .loading i {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-logo">
+                <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_White.png" alt="Spotify Logo">
+            </div>
+            <form class="login-form" id="loginForm">
+                <div class="error-message" id="error-message"></div>
+                <div class="loading" id="loading">
+                    <i class="fas fa-spinner"></i> Logging in...
+                </div>
+                <div class="form-group">
+                    <label for="email">Email address or username</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="login-button">LOG IN</button>
+            </form>
+            <div class="login-options">
+                <a href="#" id="forgot-password">Forgot your password?</a>
+                <br>
+                <a href="signup.html">Don't have an account? SIGN UP</a>
+            </div>
+            <div class="social-login">
+                <button class="social-button" id="google-login">
+                    <i class="fab fa-google"></i>
+                    Continue with Google
+                </button>
+                <button class="social-button" id="facebook-login">
+                    <i class="fab fa-facebook"></i>
+                    Continue with Facebook
+                </button>
+                <button class="social-button" id="twitter-login">
+                    <i class="fab fa-twitter"></i>
+                    Continue with Twitter
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const errorMessage = document.getElementById('error-message');
+        const loading = document.getElementById('loading');
+
+        // Show error message
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        // Show loading state
+        function showLoading() {
+            loading.style.display = 'block';
+        }
+
+        // Hide loading state
+        function hideLoading() {
+            loading.style.display = 'none';
+        }
+
+        // Validate email format
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Handle form submission
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Basic validation
+            if (!email || !password) {
+                showError('Please fill in all fields');
+                return;
+            }
+
+            if (!isValidEmail(email)) {
+                showError('Please enter a valid email address');
+                return;
+            }
+
+            if (password.length < 6) {
+                showError('Password must be at least 6 characters long');
+                return;
+            }
+
+            try {
+                showLoading();
+
+                // Here you would typically make an API call to your backend
+                // For demo purposes, we'll simulate a successful login
+                await new Promise(resolve => setTimeout(resolve, 1500));
+
+                // Store login state (in a real app, you'd store a token)
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userEmail', email);
+
+                // Redirect to main page
+                window.location.href = 'index.html';
+            } catch (error) {
+                hideLoading();
+                showError('Login failed. Please try again.');
+                console.error('Login error:', error);
+            }
+        });
+
+        // Handle social login buttons
+        document.getElementById('google-login').addEventListener('click', () => {
+            showError('Google login not implemented yet');
+        });
+
+        document.getElementById('facebook-login').addEventListener('click', () => {
+            showError('Facebook login not implemented yet');
+        });
+
+        document.getElementById('twitter-login').addEventListener('click', () => {
+            showError('Twitter login not implemented yet');
+        });
+
+        // Handle forgot password
+        document.getElementById('forgot-password').addEventListener('click', (e) => {
+            e.preventDefault();
+            showError('Password reset not implemented yet');
+        });
+
+        // Check if user is already logged in
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html> 
